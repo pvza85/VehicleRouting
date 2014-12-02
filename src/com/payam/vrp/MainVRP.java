@@ -1,10 +1,13 @@
 package com.payam.vrp;
 
-public class MainVRP {
+import com.payam.vrp.reader.AugretReader;
 
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
+public class MainVRP 
+{
 
+	public static void main(String[] args) 
+	{
+		AugretReader reader = new AugretReader("A-n32-k5.vrp");
 	}
 
 }
