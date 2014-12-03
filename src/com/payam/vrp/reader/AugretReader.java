@@ -2,6 +2,8 @@ package com.payam.vrp.reader;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class AugretReader implements Reader 
@@ -43,15 +45,13 @@ public class AugretReader implements Reader
 					break;
 				
 				if(line.contains("NAME"))
-					name = line.substring(line.indexOf(':'));
+					name = line.substring(line.indexOf(':')+1);
 				else if(line.contains("COMMENT"))
-					comment = line.substring(line.indexOf(':'));
+					comment = line.substring(line.indexOf(':')+1);
 				else if(line.contains("DIMENSION"))
-					dimension = Integer.parseInt(line.substring(line.indexOf(':')));
+					dimension = Integer.parseInt(line.substring(line.indexOf(':')+1).trim());
 				else if(line.contains("CAPACITY"))
-					capacity = Integer.parseInt(line.substring(line.indexOf(':')));
-				else
-					System.out.println("Error in Reading File!!!");
+					capacity = Integer.parseInt(line.substring(line.indexOf(':')+1).trim());
 			}
 			
 			
@@ -66,8 +66,8 @@ public class AugretReader implements Reader
 					break;
 				
 				String[] t = line.split(" ");
-				nodes[i][0] = Integer.parseInt(t[1]);
-				nodes[i++][1] = Integer.parseInt(t[2]);
+				nodes[i][0] = Integer.parseInt(t[2]);
+				nodes[i++][1] = Integer.parseInt(t[3]);
 			}
 			
 			//read demands
@@ -85,15 +85,18 @@ public class AugretReader implements Reader
 			}
 			
 			//read depots
+			List<Integer> depotList = new ArrayList<Integer>();
 			while(in.hasNext())
 			{
 				String line = in.nextLine();
 				
 				if(line.contains("-1"))
 					break;
-				
-				depots[i] = Integer.parseInt(line)-1;
+				depotList.add(Integer.parseInt(line.trim())-1);
 			}
+			depots = new int[depotList.size()];
+			for(i = 0; i < depotList.size(); i++)
+				depots[i] = (int) depotList.get(i);
 			System.out.println("everything done well ");
 			
 		} catch (FileNotFoundException e)
