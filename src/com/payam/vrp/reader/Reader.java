@@ -1,6 +1,16 @@
 package com.payam.vrp.reader;
 
-public interface Reader 
+public abstract class Reader 
 {
-	public void read();
+	protected String fileName;
+	public enum FileType
+	{
+		Augret
+	}
+	
+	public Reader(String fileName)
+	{
+		this.fileName = fileName;
+	}
+	public abstract void read();
 }

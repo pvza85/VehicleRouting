@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-public class AugretReader implements Reader 
+public class AugretReader extends Reader 
 {
 	private String name;
 	private String comment;
@@ -14,15 +14,13 @@ public class AugretReader implements Reader
 	private int dimension;
 	private int[][] nodes;
 	private int[] demands;
-	private String fileName;
 	private int[] depots;
 	
 	
 
 	public AugretReader(String fileName) 
 	{
-		super();
-		this.fileName = fileName;
+		super(fileName);
 		
 		read();
 	}
