@@ -6,6 +6,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+/**
+ * A kind of reader class that reads from Augret Data Instances
+ * @author payam.azad
+ */
 public class AugretReader extends Reader 
 {
 	private String name;
@@ -26,7 +30,9 @@ public class AugretReader extends Reader
 	}
 
 
-
+	/**
+	 * read data from file that the name was provided to construct
+	 */
 	public void read()
 	{
 		

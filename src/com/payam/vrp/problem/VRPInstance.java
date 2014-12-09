@@ -1,6 +1,6 @@
 package com.payam.vrp.problem;
 
-public class VRPInstance implements Instance 
+public class VRPInstance extends Instance 
 {
 	String fileName;
 	int[][] nodes;  //first node is the only depot

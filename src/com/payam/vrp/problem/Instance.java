@@ -1,5 +1,6 @@
 package com.payam.vrp.problem;
 
-public interface Instance {
+public abstract class Instance 
+{
 
 }
