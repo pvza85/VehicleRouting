@@ -3,6 +3,7 @@ package com.payam.vrp;
 import com.payam.vrp.problem.Instance;
 import com.payam.vrp.problem.VRPInstance;
 import com.payam.vrp.solver.Solver;
+import com.payam.vrp.solver.individualsolver.greedysolver.SimpleGreedySolver;
 
 public class MainVRP 
 {
@@ -15,12 +16,12 @@ public class MainVRP
 		initialize("");
 		
 		//making instance from file name
-		String fileName = "A-n32-k5.vrp";
-		fileName = "input\" + fileName";
+		String fileName = "A-n33-k5.vrp";
+		fileName = "input\\" + fileName;
 		Instance problem = new VRPInstance(fileName);
 		
 		//solve problem
-		Solver solver = new Solver(problem);
+		Solver solver = new SimpleGreedySolver(problem);
 		solver.solve();
 		solver.printResult();
 	}

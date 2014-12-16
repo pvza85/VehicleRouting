@@ -1,5 +1,6 @@
 package com.payam.vrp.problem;
 
+import com.payam.vrp.evaluator.CVRPEvaluator;
 import com.payam.vrp.evaluator.Evaluator;
 import com.payam.vrp.reader.AugretReader;
 import com.payam.vrp.reader.Reader;
@@ -11,7 +12,7 @@ import com.payam.vrp.reader.Reader;
  */
 public abstract class Instance 
 {
-	private Evaluator evaluator;
+	public Evaluator evaluator;
 	
 	public String name;    //Instance name
 	public String comment; //comments written in the instance file
@@ -20,6 +21,7 @@ public abstract class Instance
 	public int[][] nodes;  //coordination of each node
 	public int[] demands;  //amount (weight) of demand each customer has
 	public int[] depots;   //list of indices of depots
+	public int vehicleCount; //number of vehicles for solving problem
 	
 	//state of problem
 	public int state;   //0: not solved  1: solved
@@ -50,6 +52,9 @@ public abstract class Instance
 		this.nodes = reader.nodes;
 		this.demands = reader.demands;
 		this.depots = reader.depots;
+		this.vehicleCount = reader.vehicleCount;
+		
+		this.evaluator = new CVRPEvaluator(capacity, vehicleCount, nodes, demands);
 	}
 	
 	/**

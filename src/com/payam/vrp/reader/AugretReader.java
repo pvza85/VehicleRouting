@@ -5,6 +5,8 @@ import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * A kind of reader class that reads from Augret Data Instances
@@ -95,6 +97,12 @@ public class AugretReader extends Reader
 			depots = new int[depotList.size()];
 			for(i = 0; i < depotList.size(); i++)
 				depots[i] = (int) depotList.get(i);
+			
+			//get the vehicle count from file name
+			Pattern p = Pattern.compile("(k)(\\d+)");//("k{\\d+}");
+			Matcher m = p.matcher(fileName);
+			m.find();
+			vehicleCount = Integer.parseInt(m.group(2)); 
 			System.out.println("everything done well ");
 			
 		} catch (FileNotFoundException e)

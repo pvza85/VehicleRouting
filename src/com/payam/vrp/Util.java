@@ -1,5 +1,7 @@
 package com.payam.vrp;
 
+import java.util.Random;
+
 
 /**
  * This class contain those functions that is used frequently in our program.
@@ -10,13 +12,16 @@ package com.payam.vrp;
 
 public class Util 
 {
+	public static Random rand = new Random(System.currentTimeMillis());
+	
+	
 	/**
 	 * will print result in different outputs, include console or a file.
 	 * @param str
 	 */
 	public static void print(String str)
 	{
-		
+		System.out.println(str);
 	}
 	
 	/**
@@ -25,7 +30,7 @@ public class Util
 	 */
 	public static double randDouble()
 	{
-		return 0.0;
+		return rand.nextDouble();
 	}
 	
 	/**
@@ -43,6 +48,6 @@ public class Util
 	 */
 	public static int randInt(int b)
 	{
-		return randInt(0, b);
+		return rand.nextInt(b);
 	}
 }
