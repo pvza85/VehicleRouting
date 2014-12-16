@@ -9,6 +9,14 @@ public abstract class Reader
 {
 	protected String fileName;
 	
+	public String name;    //Instance name
+	public String comment; //comments written in the instance file
+	public int capacity;   //capacity of vehicles
+	public int dimension;  //number of  points to visit
+	public int[][] nodes;  //coordination of each node
+	public int[] demands;  //amount (weight) of demand each customer has
+	public int[] depots;   //list of indices of depots
+	
 	/**
 	 * different types of files
 	 * @author payam.azad

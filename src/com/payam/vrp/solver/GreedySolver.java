@@ -1,5 +1,12 @@
 package com.payam.vrp.solver;
 
-public interface GreedySolver {
+import com.payam.vrp.problem.Instance;
+
+public class GreedySolver extends IndividualSolver 
+{
+
+	public GreedySolver(Instance problem) {
+		super(problem);
+	}
 
 }

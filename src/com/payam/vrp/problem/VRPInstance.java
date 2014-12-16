@@ -1,21 +1,19 @@
 package com.payam.vrp.problem;
 
+import com.payam.vrp.reader.Reader.FileType;
+
 public class VRPInstance extends Instance 
 {
-	String fileName;
-	int[][] nodes;  //first node is the only depot
-	int[][] distances;  //distances between nodes
+	//in this class we just consider that we have one depot, the node at index 0
 	
 	
-	
-	
-	public VRPInstance(String fileName) 
-	{
-		super();
-		this.fileName = fileName;
-		
-		
+	public VRPInstance(String inputFile, FileType type) {
+		super(inputFile, type);
 	}
+
+	public VRPInstance(String inputFile) {
+		super(inputFile);
+	}	
 	
 	
 }

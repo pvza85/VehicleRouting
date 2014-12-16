@@ -12,13 +12,7 @@ import java.util.Scanner;
  */
 public class AugretReader extends Reader 
 {
-	private String name;
-	private String comment;
-	private int capacity;
-	private int dimension;
-	private int[][] nodes;
-	private int[] demands;
-	private int[] depots;
+	
 	
 	
 
