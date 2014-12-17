@@ -21,7 +21,7 @@ public class CVRPEvaluator extends Evaluator
 		return res;
 	}
 	
-	private double distance(int a, int b)
+	public double distance(int a, int b)
 	{
 		double temp = Math.pow((nodes[a][0] - nodes[b][0]), 2) + Math.pow((nodes[a][1] - nodes[b][1]), 2);
 		return Math.sqrt(temp);

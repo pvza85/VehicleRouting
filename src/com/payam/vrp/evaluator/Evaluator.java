@@ -1,6 +1,6 @@
 package com.payam.vrp.evaluator;
 
-public class Evaluator 
+public abstract class Evaluator 
 {
 	public int capacity;   //capacity of vehicles
 	public int vehicleCount; //number of vehicles for solving problem
@@ -30,5 +30,7 @@ public class Evaluator
 	{
 		return 0.0;
 	}
+	
+	public abstract double distance(int a, int b);
 
 }
