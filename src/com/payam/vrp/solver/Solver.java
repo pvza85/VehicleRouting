@@ -60,7 +60,28 @@ public class Solver
 		if(problem.state == 0)
 			print("not solved yet");
 		else if(problem.state == 1)
+		{
 			print("The best result is: " + bestFitness);
+			
+			int counter = 1;
+			boolean depotSeen = true;
+			for(int i = 0; i < bestSolution.length; i++)
+			{
+				if(bestSolution[i] == 0)
+				{
+					if(depotSeen)
+					{
+						System.out.printf("\nroute#%d: ", counter++);
+						depotSeen = false;
+					}
+					else
+						depotSeen = true;
+				}
+				System.out.printf("%d   ", bestSolution[i]+1);
+						
+					
+			}
+		}
 	}
 	
 	public double evaluate()

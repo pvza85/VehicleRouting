@@ -1,24 +1,26 @@
 package com.payam.vrp.solver.individualsolver.greedysolver;
 
-import static com.payam.vrp.Util.print;
-
 import java.util.LinkedList;
 import java.util.List;
-import java.util.TreeMap;
 
 import com.payam.vrp.problem.Instance;
+
+import static com.payam.vrp.Util.*;
+
 
 /**
  * this class find a solution for VRP using Nearest Neighbor algorithm
  * It is pretty fast and give reasonable results to start.
  * The complexity is O(x^3) ! actually it is not that much good now
+ * 
+ * XXX a little change will lead to O(n*log(n)) from O(n^3).. huraaay
  * @author payam.azad
  *
  */
 public class NearestNeighborGreedySolver extends GreedySolver 
 {
 
-	//list of elements to hold a candid solution
+
 	List<Integer> candidSolution = new LinkedList<Integer>();
 	
 	public NearestNeighborGreedySolver(Instance problem) 
@@ -57,6 +59,7 @@ public class NearestNeighborGreedySolver extends GreedySolver
 			customerCounter++;
 			candidSolution.add(itr);
 		}
+		candidSolution.add(0);  
 		
 		bestSolution = new int[candidSolution.size()];
 		for(int i = 0; i < bestSolution.length; i++)
@@ -67,6 +70,7 @@ public class NearestNeighborGreedySolver extends GreedySolver
 		problem.state = 1;
 	}
 	
+
 	
 	/**
 	 * find a nearest neighbor to a that is not added to list
@@ -79,6 +83,8 @@ public class NearestNeighborGreedySolver extends GreedySolver
 		double bestDistance = Double.MAX_VALUE;
 		int best = 0;
 		//XXX I have to do something to reduce the complexity here to O(n) it is O(n^2)
+		//XXX add an array to hold a variable for each node, if it is added or not => O(n) :D
+
 		for(int i = 0; i < dimension; i++)
 		{
 			if(!candidSolution.contains(i))
