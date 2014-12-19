@@ -28,7 +28,7 @@ public class NearestNeighborGreedySolver extends GreedySolver
 		super(problem);
 	}
 	
-	public void solve()
+	public int[] solve()
 	{
 		
 		
@@ -68,6 +68,8 @@ public class NearestNeighborGreedySolver extends GreedySolver
 		evaluate();
 		
 		problem.state = 1;
+		
+		return bestSolution;
 	}
 	
 

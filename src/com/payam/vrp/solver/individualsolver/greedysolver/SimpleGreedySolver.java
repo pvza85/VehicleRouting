@@ -23,7 +23,7 @@ public class SimpleGreedySolver extends GreedySolver {
 		super(problem);
 	}
 	
-	public void solve()
+	public int[] solve()
 	{
 		List<Integer> candidSolution = new LinkedList<Integer>();
 		
@@ -48,8 +48,8 @@ public class SimpleGreedySolver extends GreedySolver {
 			}
 			
 			assignedWeight += demands[customerCounter];
-			customerCounter++;
 			candidSolution.add(customerCounter);
+			customerCounter++;
 		}
 		
 		candidSolution.add(0); //set end point to be depot
@@ -61,6 +61,8 @@ public class SimpleGreedySolver extends GreedySolver {
 		evaluate();
 		
 		problem.state = 1;
+		
+		return bestSolution;
 	}
 
 }

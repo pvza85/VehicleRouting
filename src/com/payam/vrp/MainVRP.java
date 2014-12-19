@@ -3,9 +3,7 @@ package com.payam.vrp;
 import com.payam.vrp.problem.Instance;
 import com.payam.vrp.problem.VRPInstance;
 import com.payam.vrp.solver.Solver;
-import com.payam.vrp.solver.individualsolver.greedysolver.ClarkeWrightGreedySolver;
-import com.payam.vrp.solver.individualsolver.greedysolver.NearestNeighborGreedySolver;
-import com.payam.vrp.solver.individualsolver.greedysolver.SimpleGreedySolver;
+import com.payam.vrp.solver.populationbased.EHSBASolver;
 
 public class MainVRP 
 {
@@ -19,7 +17,7 @@ public class MainVRP
 		
 		//making instance from file name
 
-		String fileName = "A-n38-k5.vrp";
+		String fileName = "A-n32-k5.vrp";
 
 		fileName = "input\\" + fileName;
 		Instance problem = new VRPInstance(fileName);
@@ -28,7 +26,8 @@ public class MainVRP
 
 		//Solver solver = new SimpleGreedySolver(problem);
 		//Solver solver = new NearestNeighborGreedySolver(problem);
-		Solver solver = new ClarkeWrightGreedySolver(problem);
+		//Solver solver = new ClarkeWrightGreedySolver(problem);
+		Solver solver = new EHSBASolver(problem);
 
 
 		solver.solve();

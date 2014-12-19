@@ -43,9 +43,9 @@ public class Solver
 		this.evaluator = problem.evaluator;
 	}
 	
-	public void solve()
+	public int[] solve()
 	{
-		
+		return bestSolution;
 	}
 	
 	public String toString()

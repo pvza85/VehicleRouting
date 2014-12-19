@@ -41,7 +41,7 @@ public class ClarkeWrightGreedySolver extends GreedySolver
 			routes.add(new Rout(i));
 	}
 
-	public void solve()
+	public int[] solve()
 	{
 		saves = constructSaves();
 
@@ -72,6 +72,7 @@ public class ClarkeWrightGreedySolver extends GreedySolver
 		
 		problem.state = 1;
 		
+		return bestSolution;
 	}
 	
 	/**

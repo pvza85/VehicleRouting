@@ -16,8 +16,8 @@ public class RandomGreedySolver extends GreedySolver {
 	}
 
 	@Override
-	public void solve()
+	public int[] solve()
 	{
-		
+		return bestSolution;
 	}
 }
