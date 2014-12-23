@@ -48,28 +48,32 @@ public class EHSBA
         double[][] tempMatrix;
         double[] sums;
         
-        Population newPop = new Population(input.problem);
+        Population newPop = new Population(problem, 40);   //XXX set population size later
         
         //elitism ********
-        newPop.members[0] = input.theBestIndiv();
-        //create each individual in the population
-        for(int i = input.problem.parameters.eliteNumber; i < input.population.length; i++)
+        newPop.members[0] = input.members[input.bestMemberIndex];
+        //create each individual in the population 
+        for(int i = 1; i < input.members.length; i++)
         {
             sums = new double[len];
             tempMatrix = new double[len][len];
-            Individual indiv = new Individual(len, input.problem);    //XXX check for a way to not send problem to all 
+            
+            //--------------------------------------------------------------------------------------------------------
+            Individual indiv = new Individual(input.members[i].chromosome, problem); //new Individual(len, input.problem);    
+            //--------------------------------------------------------------------------------------------------------
+            
             //create a temporary copy of Histogram Matrix for further changes
             //for(int j = 0; j < len; j++)
                 //System.arraycopy(HM[j], 0, tempMatrix[j], 0, len);
             
-            double epsilon =  (input.problem.parameters.Bratio * 2 * input.problem.parameters.populationSize) / input.problem.parameters.chromosomeLength;
+            double epsilon =  (Bratio * 2 * input.populationSize) / problem.dimension;   //XXX some problems here dimensions is not true
             for(int j = 0; j < len; j++)
                 for(int k = 0; k < len; k++)
                     tempMatrix[j][k] = (double)HM[j][k]  + epsilon ;   //1 here is acting as B_ratio
             
             //create start and length of changing area
             int startPoint = randInt(len);
-            int changeLength = (int) ((random.nextGaussian() + 1) * len * input.problem.parameters.changeRatio);  //connect it to Bratio
+            int changeLength = (int) ((random.nextGaussian() + 1) * len * changeRatio);  //connect it to Bratio
             if(changeLength >= len)
                 changeLength = len - 1;
             if(changeLength < 2)   //XXX check it
@@ -126,12 +130,12 @@ public class EHSBA
             }
             //XXX put a check to select new generation
             indiv.evaluate();
-            if(indiv.fitness < input.population[i].fitness)
-                newPop.population[i] = indiv;
-            else if(random.nextDouble() > input.problem.parameters.acceptanceRate)
-                newPop.population[i] = indiv;
+            if(indiv.fitness < input.members[i].fitness)
+                newPop.members[i] = indiv;
+            else if(random.nextDouble() > acceptanceRate)
+                newPop.members[i] = indiv;
             else
-                newPop.population[i] = input.population[i];
+                newPop.members[i] = input.members[i];
         }
         
         return newPop;

@@ -12,7 +12,13 @@ import java.util.Random;
 
 public class Util 
 {
-	public static Random rand = new Random(System.currentTimeMillis());
+	public static double Bratio;
+	public static double changeRatio;
+	public static int elitismSize;
+	public static double acceptanceRate;
+	
+	
+	public static Random random = new Random(System.currentTimeMillis());
 	
 	
 	/**
@@ -30,7 +36,7 @@ public class Util
 	 */
 	public static double randDouble()
 	{
-		return rand.nextDouble();
+		return random.nextDouble();
 	}
 	
 	/**
@@ -48,6 +54,6 @@ public class Util
 	 */
 	public static int randInt(int b)
 	{
-		return rand.nextInt(b);
+		return random.nextInt(b);
 	}
 }

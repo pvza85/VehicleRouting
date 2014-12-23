@@ -32,7 +32,7 @@ public class EHSBASolver extends PopulationBasedSolver
 		
 		population.initialize();
 		population.evaluate();
-		bestSolution = population.getBest();
+		bestSolution = population.getBestChromosome();
 		bestFitness = population.bestMemberFitness;
 		print("At initialization the best solution's fitness is: " + population.getBestValue());
 		print("At initialization the average solution's fitness is: " + population.getAverage());
@@ -40,7 +40,15 @@ public class EHSBASolver extends PopulationBasedSolver
 	
 	public int[] Solve()
 	{
-		return population.getBest();
+		int maxGeneration = 100;
+		
+		EHSBA ehsba = new EHSBA(problem);
+		//Population
+		
+		for(int i = 0; i < maxGeneration; i++)
+			population = ehsba.iterate(population);
+		
+		return population.getBestChromosome();
 	}
 
 }

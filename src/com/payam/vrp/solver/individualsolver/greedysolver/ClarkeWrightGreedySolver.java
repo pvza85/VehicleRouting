@@ -41,6 +41,10 @@ public class ClarkeWrightGreedySolver extends GreedySolver
 			routes.add(new Rout(i));
 	}
 
+
+	/**
+	 * @return an array of customers to visit as a solution.
+	 */
 	public int[] solve()
 	{
 		saves = constructSaves();
@@ -62,11 +66,25 @@ public class ClarkeWrightGreedySolver extends GreedySolver
 		
 		List<Integer> candidSolution = new LinkedList<Integer>();
 		for(int i = 0; i < routes.size(); i++)
+		{
 			candidSolution.addAll(routes.get(i).path);
+		}
 		
-		bestSolution = new int[candidSolution.size()];
-		for(int i = 0; i < bestSolution.length; i++)
-			bestSolution[i] = candidSolution.get(i).intValue();
+		bestSolution = new int[dimension + vehicleCount - 2];
+		boolean depotVisited = false;
+		for(int i = 0, j = 0; i < bestSolution.length;i++)
+		{
+			int n = candidSolution.get(i).intValue();
+			
+			if(!depotVisited && n == 0)
+				depotVisited = true;
+			else
+			{
+				bestSolution[j] = n;
+				j++;
+				depotVisited = false;
+			}
+		}
 		
 		evaluate();
 		

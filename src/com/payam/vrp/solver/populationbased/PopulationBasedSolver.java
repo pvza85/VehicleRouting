@@ -7,7 +7,6 @@ import com.payam.vrp.solver.Solver;
  * A VRP solver based on population based methods like EHSBA and GA
  * 
  * @author payam.azad
- *
  */
 public class PopulationBasedSolver extends Solver 
 {
