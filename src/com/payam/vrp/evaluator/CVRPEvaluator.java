@@ -11,12 +11,15 @@ public class CVRPEvaluator extends Evaluator
 
 	public double evaluate(int[] input)
 	{
-		double res = 0.0;
+		int i = 0;
+		double res = distance(0, input[i]);
 		
-		for(int i = 0; i < input.length-1; i++)
+		for(; i < input.length-1; i++)
 		{
 			res += distance(input[i], input[i+1]);
 		}
+		
+		res += distance(input[i], 0);
 		
 		return res;
 	}

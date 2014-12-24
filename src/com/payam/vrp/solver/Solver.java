@@ -50,14 +50,38 @@ public class Solver
 	
 	public String toString()
 	{
+		String res = "";
+		
 		if(problem.state == 0)
-			return "not solved yet";
-		return "";
+			res = "not solved yet";
+		else
+		{
+			int routeCounter = 1;
+			boolean newRoute = true;
+			for(int i = 0; i < bestSolution.length; i++)
+			{
+				if(newRoute)
+				{
+					res = String.format("%s\nroute#%d: ", res, routeCounter++);
+					newRoute = false;
+				}
+				
+				if(bestSolution[i] == 0  )
+					newRoute = true;
+				else
+					res = String.format("%s %d ", res, bestSolution[i]);
+			}
+		}
+		
+		return res;
 	}
+	
 	
 	public void printResult()
 	{
-		if(problem.state == 0)
+		print("The best result is: " + bestFitness);
+		print(this.toString());
+		/*if(problem.state == 0)
 			print("not solved yet");
 		else if(problem.state == 1)
 		{
@@ -81,7 +105,7 @@ public class Solver
 						
 					
 			}
-		}
+		}*/
 	}
 	
 	public double evaluate()
