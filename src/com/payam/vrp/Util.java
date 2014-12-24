@@ -12,16 +12,29 @@ import java.util.Random;
 
 public class Util 
 {
-	public static double Bratio;
-	public static double changeRatio;
-	public static int elitismSize;
-	public static double acceptanceRate;
+	/**
+	 * static imported from {@link Util} class by myself.
+	 */
+	public static double Bratio = 0.3;
+	/**
+	 * static imported from {@link Util} class by myself.
+	 */
+	public static double changeRatio = 0.1;
+	/**
+	 * static imported from {@link Util} class by myself.
+	 */
+	public static int elitismSize = 1;
+	/**
+	 * static imported from {@link Util} class by myself.
+	 */
+	public static double acceptanceRate = 0.8;
 	
 	
 	public static Random random = new Random(System.currentTimeMillis());
 	
 	
 	/**
+	 * static imported from {@link Util} class by myself.
 	 * will print result in different outputs, include console or a file.
 	 * @param str
 	 */
@@ -31,6 +44,7 @@ public class Util
 	}
 	
 	/**
+	 * static imported from {@link Util} class by myself.
 	 * create a random double number in range (0, 1)
 	 * @return random number
 	 */
@@ -40,6 +54,7 @@ public class Util
 	}
 	
 	/**
+	 * static imported from {@link Util} class by myself.
 	 * create a random int number in range (a, b)
 	 * @return random integer
 	 */
@@ -49,7 +64,8 @@ public class Util
 	}
 	
 	/**
-	 * create a random int number in range (0, b)
+	 * static imported from {@link Util} class by myself.
+	 * create a random int number in range (0, b) 
 	 * @return random integer
 	 */
 	public static int randInt(int b)

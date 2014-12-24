@@ -22,7 +22,7 @@ public class AugretReader extends Reader
 	{
 		super(fileName);
 		
-		read();
+		//read();
 	}
 
 
@@ -103,7 +103,6 @@ public class AugretReader extends Reader
 			Matcher m = p.matcher(fileName);
 			m.find();
 			vehicleCount = Integer.parseInt(m.group(2)); 
-			System.out.println("everything done well ");
 			
 		} catch (FileNotFoundException e)
 		{
