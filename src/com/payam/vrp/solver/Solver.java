@@ -11,7 +11,7 @@ import static com.payam.vrp.Util.*;
  * 
  * @author payam.azad
  */
-public class Solver 
+public abstract class Solver 
 {
 	public Instance problem;
 	public int[] bestSolution;   //contain best solution array
@@ -43,10 +43,8 @@ public class Solver
 		this.evaluator = problem.evaluator;
 	}
 	
-	public int[] solve()
-	{
-		return bestSolution;
-	}
+	public abstract int[] solve();
+
 	
 	public String toString()
 	{

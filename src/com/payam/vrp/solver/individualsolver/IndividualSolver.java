@@ -9,4 +9,10 @@ public class IndividualSolver extends Solver {
 		super(problem);
 	}
 
+	@Override
+	public int[] solve() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

@@ -38,7 +38,8 @@ public class EHSBASolver extends PopulationBasedSolver
 		print("At initialization the average solution's fitness is: " + population.getAverage());
 	}
 	
-	public int[] Solve()
+	@Override
+	public int[] solve()
 	{
 		int maxGeneration = 100;
 		

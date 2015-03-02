@@ -70,9 +70,10 @@ public class ClarkeWrightGreedySolver extends GreedySolver
 			candidSolution.addAll(routes.get(i).path);
 		}
 		
+		//System.out.println(candidSolution.toString());
 		bestSolution = new int[dimension + vehicleCount - 2];
 		boolean depotVisited = false;
-		for(int i = 0, j = 0; i < bestSolution.length;i++)
+		for(int i = 0, j = 0; i < candidSolution.size(); i++)
 		{
 			int n = candidSolution.get(i).intValue();
 			
@@ -80,7 +81,13 @@ public class ClarkeWrightGreedySolver extends GreedySolver
 				depotVisited = true;
 			else
 			{
-				bestSolution[j] = n;
+				if(j < bestSolution.length)
+					bestSolution[j] = n;
+				else
+				{
+					System.out.println("****Error****Error****Error****Error****Error*****Error****Error****Error****Error****Error*****");
+					System.out.println(candidSolution.toString());
+				}
 				j++;
 				depotVisited = false;
 			}

@@ -33,4 +33,10 @@ public class PopulationBasedSolver extends Solver
 		
 	}
 
+	@Override
+	public int[] solve() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }
