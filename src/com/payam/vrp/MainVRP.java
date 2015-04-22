@@ -33,12 +33,12 @@ public class MainVRP
 		Solver solver = new ClarkeWrightGreedySolver(problem);
 		//Solver solver = new EHSBASolver(problem);
 		solver.solve();
-		solver.printResult();
+		//solver.printResult();
 		
 		//solver = new ClarkeWrightGreedySolver(problem);
 		Solver solver1 = new EHSBASolver(problem);
 		solver1.solve();
-		solver1.printResult();
+		//solver1.printResult();
 		
 		
 		/*File folder = new File("input");
@@ -54,7 +54,11 @@ public class MainVRP
 			else
 				continue;
 			
-			
+			kkhkhi
+			jhkjhkk
+			ihiig
+			ouutdt
+			[[pii]= ugu
 
 			//fileName = "input\\" + fileName;
 			Instance problem = new VRPInstance(fileName);

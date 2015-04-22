@@ -1,5 +1,9 @@
 package com.payam.vrp.solver.populationbased;
 
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
+import java.util.logging.Logger;
+
 import com.payam.vrp.problem.Instance;
 
 import static com.payam.vrp.Util.*;
@@ -16,6 +20,8 @@ import static com.payam.vrp.Util.*;
  */
 public class EHSBA 
 {
+	//final static Logger logger = Logger.getLogger(EHSBA.class);
+	
 	public Instance problem;
 	public Population input, output;
 	
@@ -32,10 +38,51 @@ public class EHSBA
 		
 		
 		//Population out = null;
+		//for(int i = 0; i < input.)
 		
 		int[] selected = selection();
 		
 		int[][] matrix = createMatrix(selected);
+		
+
+		//debug
+		PrintWriter outputFile;
+		try {
+			outputFile = new PrintWriter("matrix");
+			
+			for(int i = 0; i < matrix.length; i++)
+			{
+				int sum = 0;
+				
+				for(int j = 0; j < matrix[0].length; j++)
+				{
+					
+					int ch = (int) ((random.nextGaussian()) * 30 * changeRatio); 
+	        		int temp = matrix[i][j];
+	        		if(temp > ch)
+	        			ch =  -ch;
+	        		else
+	        			ch =  ch;
+					matrix[i][j] += ch;
+					sum += matrix[i][j];
+					
+				}
+				for(int j = 0; j < matrix[0].length; j++)
+				{
+					outputFile.printf("%6.2f", (float)matrix[i][j]/sum );
+				}
+				
+				outputFile.println();
+			}
+			
+			outputFile.close();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+		
+		//end debug
+		
+		
         return createNewGeneration(matrix);
 		
 	}
@@ -44,7 +91,7 @@ public class EHSBA
 	 /*------------------------- New Genereation -------------------------*/
     Population createNewGeneration(int[][] HM)
     {
-        int len = input.members[0].chromosome.length; //chromosome length
+        int len = input.members[0].chromosome.length+2; //chromosome length
         double[][] tempMatrix;
         double[] sums;
         
@@ -82,9 +129,28 @@ public class EHSBA
             //normalize none changing points to zero and set new chromosome to prev. one values
             for(int k = ((startPoint + changeLength) % len); k != startPoint; k=((k+1)%len))
             {
-                indiv.chromosome[k] = input.members[i].chromosome[k];
+            	int t1 = k;
+            	int t2 = i;
+            	if(t1 > 31)
+            		t1=t1-2;
+            	if(t2 > 31)
+            		t2 = t2 -2;
+            	
+                indiv.chromosome[t1] = input.members[t2].chromosome[t1];
                 for(int j = 0; j < len; j++)
-                    tempMatrix[j][indiv.chromosome[k]] = 0;  
+                {
+                	try
+                	{
+                		tempMatrix[j][indiv.chromosome[t1]] = 0;  
+                	}
+                	catch(Exception e)
+                	{
+                		/*System.out.println("j: " + j);
+                		System.out.println("indiv.chromosome[k]: " +  indiv.chromosome[t1]);
+                		System.out.println("tempMatrix.length: " + tempMatrix.length);
+                		System.out.println("tempMatrix[0].length: " + tempMatrix[0].length);*/
+                	}
+                }
             }
             for(int j = 0; j < len; j++)
                 for(int k = 0; k < len; k++)
@@ -96,7 +162,10 @@ public class EHSBA
 
                 int prev_index = j-1;//j-1 means the previous permutation member
                 if(prev_index < 0)  prev_index += len; 
-                int prev = indiv.chromosome[prev_index];
+                int t = prev_index;
+                if(t > 31)
+                	t = t -2;
+                int prev = indiv.chromosome[t];
                 
                 
                 if(sums[prev] <= 0)
@@ -111,19 +180,23 @@ public class EHSBA
                 int k = 0;
                 while(a <= n && k < len)//XXX put more checks
                     a += tempMatrix[prev][k++];
-                k--;
-                
-                indiv.chromosome[j] = k;
+                int t3 = --k;
+                if(t3 > 31)
+                	t3= t3-2;
+                int t4 = j;
+                if(t4 > 31)
+                	t4 = t4 - 2;
+                indiv.chromosome[t4] = t3;
                 
                 for(int l = 0; l < len; l++)
                 {
-                    sums[l] -= tempMatrix[l][k];
+                    sums[l] -= tempMatrix[l][t3];
                     if(sums[l] < 0)
                     {
                         //System.out.println("!!! oo");
                         sums[l] = 0;
                     }
-                    tempMatrix[l][k] = 0;
+                    tempMatrix[l][t3] = 0;
                 }
                 
                 
@@ -145,7 +218,7 @@ public class EHSBA
 	/*------------------------ Histogram Matrix -------------------------*/
     protected int[][] createMatrix(int[] selected)
     {
-        int len = input.members[0].chromosome.length;
+        int len = input.members[0].chromosome.length+2;
         int[][] HM = new int[len][len];
         
         // a little bit complicated :)
@@ -158,7 +231,15 @@ public class EHSBA
         {
             for(int j = 0; j < input.members[0].chromosome.length; j++)   //XXX chromosomeLength is not set
             {
-                HM[input.members[selected[i]].chromosome[j]][input.members[selected[i]].chromosome[(j+1) % input.members[0].chromosome.length]]++;
+            	try
+            	{
+            		HM[input.members[selected[i]].chromosome[j]][input.members[selected[i]].chromosome[(j+1) % input.members[0].chromosome.length]]++;
+            	}
+            	catch(Exception e)
+            	{
+            		System.out.println("input.members[i].chromosome[j]: " + input.members[i].chromosome[j]);
+            		System.out.println("input.members[selected[i]].chromosome[(j+1) % input.members[0].chromosome.length: " + input.members[selected[i]].chromosome[(j+1) % input.members[0].chromosome.length ]);
+            	}
                 //symetric matrix
                 //HM[input.population[selected[i]].chromosome[(j+1) % input.population[0].chromosome.length]][input.population[selected[i]].chromosome[j]]++;
             }

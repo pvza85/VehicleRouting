@@ -64,7 +64,7 @@ public abstract class Solver
 					newRoute = false;
 				}
 				
-				if(bestSolution[i] == 0  )
+				if(bestSolution[i] == 0  || bestSolution[i] > problem.dimension)
 					newRoute = true;
 				else
 					res = String.format("%s %d ", res, bestSolution[i]);

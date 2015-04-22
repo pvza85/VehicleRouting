@@ -41,7 +41,7 @@ public class EHSBASolver extends PopulationBasedSolver
 	@Override
 	public int[] solve()
 	{
-		int maxGeneration = 100;
+		int maxGeneration = 10;
 		
 		EHSBA ehsba = new EHSBA(problem);
 		//Population

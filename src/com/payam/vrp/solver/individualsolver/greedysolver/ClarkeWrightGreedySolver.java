@@ -73,6 +73,7 @@ public class ClarkeWrightGreedySolver extends GreedySolver
 		//System.out.println(candidSolution.toString());
 		bestSolution = new int[dimension + vehicleCount - 2];
 		boolean depotVisited = false;
+		int dep = problem.dimension;
 		for(int i = 0, j = 0; i < candidSolution.size(); i++)
 		{
 			int n = candidSolution.get(i).intValue();
@@ -82,7 +83,10 @@ public class ClarkeWrightGreedySolver extends GreedySolver
 			else
 			{
 				if(j < bestSolution.length)
-					bestSolution[j] = n;
+					if(n != 0)
+						bestSolution[j] = n;
+					else
+						bestSolution[j] = ++dep;
 				else
 				{
 					System.out.println("****Error****Error****Error****Error****Error*****Error****Error****Error****Error****Error*****");
