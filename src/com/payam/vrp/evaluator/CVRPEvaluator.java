@@ -42,16 +42,10 @@ public class CVRPEvaluator extends Evaluator
 	public double distance(int a, int b)
 	{
 		double temp;
-		int t1, t2;
 		try
 		{
-			t1 = a;
-			t2 = b;
-			if(t1 > 30)
-				t1 = 0;
-			if(t2 > 30)
-				t2 = 0;
-			 temp = Math.pow((nodes[t1][0] - nodes[t2][0]), 2) + Math.pow((nodes[t1][1] - nodes[t2][1]), 2);
+
+			 temp = Math.pow((nodes[a][0] - nodes[b][0]), 2) + Math.pow((nodes[a][1] - nodes[b][1]), 2);
 		}
 		catch(Exception e){ temp = 100; }
 		return Math.sqrt(temp);

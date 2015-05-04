@@ -12,7 +12,7 @@ import static com.payam.vrp.Util.*;
  * Implementation of enhanced Edge Histogram Based Algorithm based on(with my enhancements):
  * 
  * Tsutsui, Shigeyoshi. "Probabilistic model-building genetic algorithms in permutation 
- * representation domain using edge histogram." Parallel Problem Solving from Nature—PPSN VII. 
+ * representation domain using edge histogram." Parallel Problem Solving from Natureï¿½PPSN VII. 
  * Springer Berlin Heidelberg, 2002. 224-233.
  * 
  * 
@@ -24,6 +24,7 @@ public class EHSBA
 	
 	public Instance problem;
 	public Population input, output;
+	public int elitismSize = 1;
 	
 	int[][] matrix;
 	
@@ -43,46 +44,7 @@ public class EHSBA
 		int[] selected = selection();
 		
 		int[][] matrix = createMatrix(selected);
-		
-
-		//debug
-		PrintWriter outputFile;
-		try {
-			outputFile = new PrintWriter("matrix");
 			
-			for(int i = 0; i < matrix.length; i++)
-			{
-				int sum = 0;
-				
-				for(int j = 0; j < matrix[0].length; j++)
-				{
-					
-					int ch = (int) ((random.nextGaussian()) * 30 * changeRatio); 
-	        		int temp = matrix[i][j];
-	        		if(temp > ch)
-	        			ch =  -ch;
-	        		else
-	        			ch =  ch;
-					matrix[i][j] += ch;
-					sum += matrix[i][j];
-					
-				}
-				for(int j = 0; j < matrix[0].length; j++)
-				{
-					outputFile.printf("%6.2f", (float)matrix[i][j]/sum );
-				}
-				
-				outputFile.println();
-			}
-			
-			outputFile.close();
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		}
-		
-		//end debug
-		
-		
         return createNewGeneration(matrix);
 		
 	}
@@ -91,19 +53,21 @@ public class EHSBA
 	 /*------------------------- New Genereation -------------------------*/
     Population createNewGeneration(int[][] HM)
     {
-        int len = input.members[0].chromosome.length+2; //chromosome length
+        int len = input.members[0].chromosome.length; //chromosome length
         double[][] tempMatrix;
         double[] sums;
         
         Population newPop = new Population(problem, 40);   //XXX set population size later
         
         //elitism ********
-        newPop.members[0] = input.members[input.bestMemberIndex];
+        int i;
+        for(i = 0; i < elitismSize; i++)
+        	newPop.members[i] = input.members[input.bestMemberIndex];
         //create each individual in the population 
-        for(int i = 1; i < input.members.length; i++)
+        for(; i < input.members.length; i++)
         {
-            sums = new double[len];
-            tempMatrix = new double[len][len];
+            sums = new double[HM.length]; sums[0] = 0;
+            tempMatrix = new double[HM.length][HM.length];
             
             //--------------------------------------------------------------------------------------------------------
             Individual indiv = new Individual(input.members[i].chromosome, problem); //new Individual(len, input.problem);    
@@ -114,9 +78,13 @@ public class EHSBA
                 //System.arraycopy(HM[j], 0, tempMatrix[j], 0, len);
             
             double epsilon =  (Bratio * 2 * input.populationSize) / problem.dimension;   //XXX some problems here dimensions is not true
-            for(int j = 0; j < len; j++)
-                for(int k = 0; k < len; k++)
+            for(int j = 1; j < len+1; j++) //XXX not 1
+                for(int k = 1; k < len+1; k++) //XXX not 1
                     tempMatrix[j][k] = (double)HM[j][k]  + epsilon ;   //1 here is acting as B_ratio
+            
+            //XXX this occur because I did not consider 0
+            ///solve it ASAP
+            
             
             //create start and length of changing area
             int startPoint = randInt(len);
@@ -129,19 +97,13 @@ public class EHSBA
             //normalize none changing points to zero and set new chromosome to prev. one values
             for(int k = ((startPoint + changeLength) % len); k != startPoint; k=((k+1)%len))
             {
-            	int t1 = k;
-            	int t2 = i;
-            	if(t1 > 31)
-            		t1=t1-2;
-            	if(t2 > 31)
-            		t2 = t2 -2;
             	
-                indiv.chromosome[t1] = input.members[t2].chromosome[t1];
+                indiv.chromosome[k] = input.members[i].chromosome[k];
                 for(int j = 0; j < len; j++)
                 {
                 	try
                 	{
-                		tempMatrix[j][indiv.chromosome[t1]] = 0;  
+                		tempMatrix[j][indiv.chromosome[k]] = 0;  
                 	}
                 	catch(Exception e)
                 	{
@@ -162,10 +124,7 @@ public class EHSBA
 
                 int prev_index = j-1;//j-1 means the previous permutation member
                 if(prev_index < 0)  prev_index += len; 
-                int t = prev_index;
-                if(t > 31)
-                	t = t -2;
-                int prev = indiv.chromosome[t];
+                int prev = indiv.chromosome[prev_index];
                 
                 
                 if(sums[prev] <= 0)
@@ -178,25 +137,20 @@ public class EHSBA
                 
                 double a = 0; 
                 int k = 0;
-                while(a <= n && k < len)//XXX put more checks
+                while(a < n && k < len)//XXX put more checks
                     a += tempMatrix[prev][k++];
-                int t3 = --k;
-                if(t3 > 31)
-                	t3= t3-2;
-                int t4 = j;
-                if(t4 > 31)
-                	t4 = t4 - 2;
-                indiv.chromosome[t4] = t3;
+
+                indiv.chromosome[j] = k-1;   //XXX Danger
                 
                 for(int l = 0; l < len; l++)
                 {
-                    sums[l] -= tempMatrix[l][t3];
+                    sums[l] -= tempMatrix[l][k];
                     if(sums[l] < 0)
                     {
                         //System.out.println("!!! oo");
                         sums[l] = 0;
                     }
-                    tempMatrix[l][t3] = 0;
+                    tempMatrix[l][k] = 0;
                 }
                 
                 

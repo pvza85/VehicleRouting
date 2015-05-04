@@ -36,8 +36,8 @@ public class Individual
 	 */
 	public double evaluate()
 	{
-		if(evaluated == false || fitness == -1)
-			fitness = problem.evaluator.evaluate(chromosome);
+		//if(evaluated == false || fitness == -1)
+		fitness = problem.evaluator.evaluate(chromosome);
 		
 		//if(validate() != 1)
 		//	fitness = Double.MAX_VALUE;

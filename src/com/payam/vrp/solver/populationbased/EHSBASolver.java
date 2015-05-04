@@ -47,7 +47,9 @@ public class EHSBASolver extends PopulationBasedSolver
 		//Population
 		
 		for(int i = 0; i < maxGeneration; i++)
+		{
 			population = ehsba.iterate(population);
+		}
 		
 		return population.getBestChromosome();
 	}

@@ -1,10 +1,13 @@
 package com.payam.vrp.solver.populationbased;
 
+import java.util.LinkedList;
+
 import com.payam.vrp.problem.Instance;
 import com.payam.vrp.solver.individualsolver.greedysolver.ClarkeWrightGreedySolver;
 import com.payam.vrp.solver.individualsolver.greedysolver.NearestNeighborGreedySolver;
 import com.payam.vrp.solver.individualsolver.greedysolver.SimpleGreedySolver;
 
+import static com.payam.vrp.Util.*;
 /**
  * A group (population) of {@link Individual}s.
  * We can evaluate best member, average fitness and...
@@ -67,22 +70,15 @@ public class Population
 	 */
 	public void initialize()
 	{
-		//int[] init1 = (new NearestNeighborGreedySolver(problem)).solve();
-		//int[] init2 = (new SimpleGreedySolver(problem)).solve();
-		int[] init3 = (new ClarkeWrightGreedySolver(problem)).solve();
+		LinkedList<int[]> solutionPool = new LinkedList<int[]>();
+		//solutionPool.add( (new NearestNeighborGreedySolver(problem)).solve());
+		//solutionPool.add( (new SimpleGreedySolver(problem)).solve());
+		solutionPool.add((new ClarkeWrightGreedySolver(problem)).solve());
 		
-		int i = 0;
-		/*for(; i < populationSize/3; i++)
+		for(int i = 0; i < populationSize; i++)
 		{
-			members[i] = new Individual(init1, problem);
-		}
-		for(; i < 2 * populationSize/3; i++)
-		{
-			members[i] = new Individual(init2, problem);
-		}*/
-		for(; i < populationSize; i++)
-		{
-			members[i] = new Individual(init3, problem);
+			
+			members[i] = new Individual(solutionPool.get(random.nextInt(solutionPool.size())), problem);
 		}
 	}
 	
