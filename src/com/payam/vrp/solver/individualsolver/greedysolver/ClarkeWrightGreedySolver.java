@@ -10,7 +10,7 @@ import com.payam.vrp.problem.Instance;
 /**
  * implementation of Parallel Clarke Wright Algorithm presented at:
  * 
- * G. Clarke and J. Wright “Scheduling of vehicles from a central depot to a number of delivery points”, 
+ * G. Clarke and J. Wright ï¿½Scheduling of vehicles from a central depot to a number of delivery pointsï¿½, 
  * Operations Research, 12 #4, 568-581, 1964.
  * 
  * This algorithm is using savings and preduce pretty nice results for VRP
@@ -86,7 +86,7 @@ public class ClarkeWrightGreedySolver extends GreedySolver
 					if(n != 0)
 						bestSolution[j] = n;
 					else
-						bestSolution[j] = ++dep;
+						bestSolution[j] = dep++;
 				else
 				{
 					System.out.println("****Error****Error****Error****Error****Error*****Error****Error****Error****Error****Error*****");

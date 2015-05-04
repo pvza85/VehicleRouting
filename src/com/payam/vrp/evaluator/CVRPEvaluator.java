@@ -17,11 +17,11 @@ public class CVRPEvaluator extends Evaluator
 		for(; i < input.length-1; i++)
 		{
 			int next, current;
-			if(input[i] > nodes.length)
+			if(input[i] >= nodes.length)
 				current = 0;
 			else
 				current = input[i];
-			if(input[i+1] > nodes.length)
+			if(input[i+1] >= nodes.length)
 				next = 0;
 			else
 				next = input[i+1];

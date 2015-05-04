@@ -44,6 +44,8 @@ public class EHSBA
 		int[] selected = selection();
 		
 		int[][] matrix = createMatrix(selected);
+		
+		logMatrix(matrix, "matrix.csv");
 			
         return createNewGeneration(matrix);
 		
@@ -78,13 +80,17 @@ public class EHSBA
                 //System.arraycopy(HM[j], 0, tempMatrix[j], 0, len);
             
             double epsilon =  (Bratio * 2 * input.populationSize) / problem.dimension;   //XXX some problems here dimensions is not true
-            for(int j = 1; j < len+1; j++) //XXX not 1
-                for(int k = 1; k < len+1; k++) //XXX not 1
+            for(int j = 1; j < HM.length; j++) //XXX not 1
+                for(int k = 1; k < HM.length; k++) //XXX not 1
                     tempMatrix[j][k] = (double)HM[j][k]  + epsilon ;   //1 here is acting as B_ratio
+            
+            //just delete it for better efficiency
+            for(int j = 0; j < HM.length; j++)
+            	tempMatrix[j][j] = 0;
             
             //XXX this occur because I did not consider 0
             ///solve it ASAP
-            
+            logMatrix(tempMatrix, "temp_matrix1.csv");
             
             //create start and length of changing area
             int startPoint = randInt(len);
@@ -118,6 +124,7 @@ public class EHSBA
                 for(int k = 0; k < len; k++)
                     sums[j] += tempMatrix[j][k];
             
+            logMatrix(tempMatrix, "temp_matrix2.csv");
             //System.out.println(" ");
             for(int j = startPoint; j != ((startPoint + changeLength)%len); j = ((j+1)%len))
             {
@@ -138,9 +145,14 @@ public class EHSBA
                 double a = 0; 
                 int k = 0;
                 while(a < n && k < len)//XXX put more checks
-                    a += tempMatrix[prev][k++];
+                {
+                	if(k >= len)
+                		System.out.print(".");
+                	a += tempMatrix[prev][k++];
+                }
+                    
 
-                indiv.chromosome[j] = k-1;   //XXX Danger
+                indiv.chromosome[j] = --k;   
                 
                 for(int l = 0; l < len; l++)
                 {
@@ -155,6 +167,7 @@ public class EHSBA
                 
                 
             }
+            logMatrix(tempMatrix, "temp_matrix3.csv");
             //XXX put a check to select new generation
             indiv.evaluate();
             if(indiv.fitness < input.members[i].fitness)
@@ -172,7 +185,7 @@ public class EHSBA
 	/*------------------------ Histogram Matrix -------------------------*/
     protected int[][] createMatrix(int[] selected)
     {
-        int len = input.members[0].chromosome.length+2;
+        int len = input.members[0].chromosome.length+1;
         int[][] HM = new int[len][len];
         
         // a little bit complicated :)
@@ -183,11 +196,16 @@ public class EHSBA
         // while we have to just look at selected members instead of population[i] we will use population[selected[i]]
         for(int i = 0; i < selected.length; i++)
         {
-            for(int j = 0; j < input.members[0].chromosome.length; j++)   //XXX chromosomeLength is not set
+            for(int j = 0; j < len-1; j++)   //XXX chromosomeLength is not set
             {
+            	int a, b;
             	try
             	{
-            		HM[input.members[selected[i]].chromosome[j]][input.members[selected[i]].chromosome[(j+1) % input.members[0].chromosome.length]]++;
+            		a = input.members[selected[i]].chromosome[j];
+            		if(j+1 >= input.members[0].chromosome.length)
+            			j = 0;
+            		b = input.members[selected[i]].chromosome[j+1];
+            		HM[a][b]++;
             	}
             	catch(Exception e)
             	{
@@ -252,5 +270,71 @@ public class EHSBA
             selected[i] = i;
         
         return selected;
+    }
+    
+    private void logMatrix(int[][] matrix, String fileName)
+    {
+    	//debug
+    	PrintWriter outputFile;
+    	try {
+    		outputFile = new PrintWriter(fileName);
+
+    		for(int i = 0; i < matrix.length; i++)
+    		{
+    			int sum = 0;
+
+    			for(int j = 0; j < matrix[0].length; j++)
+    			{
+
+    				int ch = (int) ((random.nextGaussian()) * 30 * changeRatio);
+    				int temp = matrix[i][j];
+    				if(temp > ch)
+    					ch = -ch;
+    				else
+    					ch = ch;
+    				//matrix[i][j] += ch;
+    				sum += matrix[i][j];
+
+    			}
+    			for(int j = 0; j < matrix[0].length; j++)
+    			{
+    				outputFile.printf("%d,", matrix[i][j]);
+    			}
+
+    			outputFile.println();
+    		}
+
+    		outputFile.close();
+    	} catch (FileNotFoundException e) {
+    		e.printStackTrace();
+    	}
+
+    	//end debug
+    }
+    private void logMatrix(double[][] matrix, String fileName)
+    {
+    	//debug
+    	PrintWriter outputFile;
+    	try {
+    		outputFile = new PrintWriter(fileName);
+
+    		for(int i = 0; i < matrix.length; i++)
+    		{
+
+ 
+    			for(int j = 0; j < matrix[0].length; j++)
+    			{
+    				outputFile.printf("%f,", matrix[i][j]);
+    			}
+
+    			outputFile.println();
+    		}
+
+    		outputFile.close();
+    	} catch (FileNotFoundException e) {
+    		e.printStackTrace();
+    	}
+
+    	//end debug
     }
 }
