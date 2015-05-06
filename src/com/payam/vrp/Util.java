@@ -29,6 +29,8 @@ public class Util
 	 */
 	public static double acceptanceRate = 0.8;
 	
+	public static double mutuationRate = 1;
+	
 	
 	public static Random random = new Random(System.currentTimeMillis());
 	

@@ -21,7 +21,8 @@ public class Individual
 	
 	public Individual(int[] chromosome, Instance problem)
 	{
-		this.chromosome = chromosome;
+		this.chromosome = new int[chromosome.length];
+		System.arraycopy(chromosome, 0, this.chromosome, 0, chromosome.length);
 		this.problem = problem;
 		
 		evaluate();

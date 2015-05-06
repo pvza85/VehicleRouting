@@ -1,5 +1,7 @@
 package com.payam.vrp.solver.populationbased;
 
+import java.util.LinkedList;
+
 import com.payam.vrp.problem.Instance;
 import com.payam.vrp.solver.individualsolver.greedysolver.ClarkeWrightGreedySolver;
 import com.payam.vrp.solver.individualsolver.greedysolver.NearestNeighborGreedySolver;
@@ -41,16 +43,20 @@ public class EHSBASolver extends PopulationBasedSolver
 	@Override
 	public int[] solve()
 	{
-		int maxGeneration = 10;
+		int maxGeneration = 100;
 		
 		EHSBA ehsba = new EHSBA(problem);
 		//Population
+		double[] results = new double[maxGeneration];
 		
 		for(int i = 0; i < maxGeneration; i++)
 		{
 			population = ehsba.iterate(population);
+			results[i] = population.getBestValue();
 		}
 		
+		this.bestFitness = population.bestMemberFitness;
+		this.bestSolution = population.getBestChromosome();
 		return population.getBestChromosome();
 	}
 

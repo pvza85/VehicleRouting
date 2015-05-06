@@ -90,7 +90,7 @@ public class EHSBA
             
             //XXX this occur because I did not consider 0
             ///solve it ASAP
-            logMatrix(tempMatrix, "temp_matrix1.csv");
+            //logMatrix(tempMatrix, "temp_matrix1.csv");
             
             //create start and length of changing area
             int startPoint = randInt(len);
@@ -124,7 +124,7 @@ public class EHSBA
                 for(int k = 0; k < len; k++)
                     sums[j] += tempMatrix[j][k];
             
-            logMatrix(tempMatrix, "temp_matrix2.csv");
+            //logMatrix(tempMatrix, "temp_matrix2.csv");
             //System.out.println(" ");
             for(int j = startPoint; j != ((startPoint + changeLength)%len); j = ((j+1)%len))
             {
@@ -167,9 +167,15 @@ public class EHSBA
                 
                 
             }
-            logMatrix(tempMatrix, "temp_matrix3.csv");
+            //logMatrix(tempMatrix, "temp_matrix3.csv");
             //XXX put a check to select new generation
             indiv.evaluate();
+            
+            //debug
+            //System.out.printf("%d %d %d\n", i, startPoint, changeLength);
+            //System.out.printf("%f: %s\n", indiv.fitness, indiv.toSimpleString());
+            //System.out.printf("%f: %s\n\n\n", input.members[i].fitness, input.members[i].toSimpleString());
+            //end debug
             if(indiv.fitness < input.members[i].fitness)
                 newPop.members[i] = indiv;
             else if(random.nextDouble() > acceptanceRate)
@@ -177,7 +183,7 @@ public class EHSBA
             else
                 newPop.members[i] = input.members[i];
         }
-        
+        newPop.evaluate();
         return newPop;
     }
 	
@@ -196,14 +202,14 @@ public class EHSBA
         // while we have to just look at selected members instead of population[i] we will use population[selected[i]]
         for(int i = 0; i < selected.length; i++)
         {
-            for(int j = 0; j < len-1; j++)   //XXX chromosomeLength is not set
+            for(int j = 0; j < len-2; j++)   //XXX chromosomeLength is not set
             {
             	int a, b;
             	try
             	{
             		a = input.members[selected[i]].chromosome[j];
             		if(j+1 >= input.members[0].chromosome.length)
-            			j = 0;
+            			b = input.members[selected[i]].chromosome[1];
             		b = input.members[selected[i]].chromosome[j+1];
             		HM[a][b]++;
             	}
