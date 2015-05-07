@@ -5,6 +5,8 @@ import com.payam.vrp.evaluator.Evaluator;
 import com.payam.vrp.reader.AugretReader;
 import com.payam.vrp.reader.Reader;
 
+import static com.payam.vrp.Util.*;
+
 /**
  * An instance of VRP problem
  * @author payam.azad
@@ -22,6 +24,7 @@ public abstract class Instance
 	public int[] demands;  //amount (weight) of demand each customer has
 	public int[] depots;   //list of indices of depots
 	public int vehicleCount; //number of vehicles for solving problem
+	public int a, b;
 	
 	//state of problem
 	public int state;   //0: not solved  1: solved
@@ -64,5 +67,21 @@ public abstract class Instance
 	public Instance(String inputFile)
 	{
 		this(inputFile, Reader.FileType.Augret);
+	}
+	public void change()
+	{
+		a = random.nextInt(nodes.length);
+		b = random.nextInt(nodes.length);
+		
+		int[] temp = nodes[a];
+		nodes[a] = nodes[b];
+		nodes[b] = temp;
+		
+	}
+	public void revertChange()
+	{
+		int[] temp = nodes[a];
+		nodes[a] = nodes[b];
+		nodes[b] = temp;
 	}
 }

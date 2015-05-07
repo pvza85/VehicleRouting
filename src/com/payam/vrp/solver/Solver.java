@@ -78,7 +78,7 @@ public abstract class Solver
 	public void printResult()
 	{
 		print("The best result is: " + bestFitness);
-		print(this.toString());
+		//print(this.toString());
 		/*if(problem.state == 0)
 			print("not solved yet");
 		else if(problem.state == 1)

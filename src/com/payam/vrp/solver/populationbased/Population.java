@@ -25,6 +25,7 @@ public class Population
 	public double bestMemberFitness; //fitness of best member
 	public double averageFitness;    
 	public Instance problem; 
+	public int a,b;
 	
 	public Population(Instance problem, int populationSize) 
 	{
@@ -135,4 +136,5 @@ public class Population
 		
 		return res;
 	}
+	
 }
