@@ -9,11 +9,12 @@ public class CVRPEvaluator extends Evaluator
 		super(capacity, vehicleCount, nodes, demands);
 	}
 
+	
 	public double evaluate(int[] input)
 	{
 		int i = 0;
 		double res = distance(0, input[i]);
-		
+		int load = demands[i];
 		for(; i < input.length-1; i++)
 		{
 			int next, current;
@@ -22,12 +23,19 @@ public class CVRPEvaluator extends Evaluator
 			else
 				current = input[i];
 			if(input[i+1] >= nodes.length)
+			{
 				next = 0;
+				load = 0;
+			}
 			else
 				next = input[i+1];
 			
 			if(next < nodes.length &&  current < nodes.length )
+			{
 				res += distance(current, next);
+				if(load > capacity)
+					res += 1000;
+			}
 			else
 			{
 				res += 1000;

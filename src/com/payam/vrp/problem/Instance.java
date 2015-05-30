@@ -25,6 +25,7 @@ public abstract class Instance
 	public int[] depots;   //list of indices of depots
 	public int vehicleCount; //number of vehicles for solving problem
 	public int a, b;
+	public double optimal = 784;
 	
 	//state of problem
 	public int state;   //0: not solved  1: solved
@@ -77,11 +78,20 @@ public abstract class Instance
 		nodes[a] = nodes[b];
 		nodes[b] = temp;
 		
+		int tempd = demands[a];
+		demands[a] = demands[b];
+		demands[b] = tempd;
+		
 	}
 	public void revertChange()
 	{
 		int[] temp = nodes[a];
 		nodes[a] = nodes[b];
 		nodes[b] = temp;
+		
+		int tempd = demands[a];
+		demands[a] = demands[b];
+		demands[b] = tempd;
+		
 	}
 }

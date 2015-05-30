@@ -43,20 +43,39 @@ public class EHSBASolver extends PopulationBasedSolver
 	@Override
 	public int[] solve()
 	{
-		int maxGeneration = 100;
+		int maxGeneration = 1000;
 		
 		EHSBA ehsba = new EHSBA(problem);
 		//Population
 		double[] results = new double[maxGeneration];
-		
+		boolean flag = false;
+		double sum = 0.0;
 		for(int i = 0; i < maxGeneration; i++)
 		{
+			if(!flag && (i+1) % changeFrequency == 0)
+			{
+				//population.problem.change();
+				//System.out.println("c");
+				flag = !flag;
+			}
+			else if(flag && (i+1) % changeFrequency == 0)
+			{
+				//population.problem.revertChange();
+				//System.out.println("r");
+				flag = !flag;
+			}
 			population = ehsba.iterate(population);
 			results[i] = population.getBestValue();
+			
+			System.out.println(results[i]);
+			
+			sum += (results[i] - population.problem.optimal) / maxGeneration;
 		}
 		
 		this.bestFitness = population.bestMemberFitness;
 		this.bestSolution = population.getBestChromosome();
+		
+		System.out.println("offline error is: " + sum);
 		return population.getBestChromosome();
 	}
 

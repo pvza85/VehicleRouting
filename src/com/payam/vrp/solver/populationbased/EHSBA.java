@@ -2,7 +2,7 @@ package com.payam.vrp.solver.populationbased;
 
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
-import java.util.logging.Logger;
+import org.apache.log4j.Logger;
 
 import com.payam.vrp.problem.Instance;
 
@@ -21,6 +21,8 @@ import static com.payam.vrp.Util.*;
 public class EHSBA 
 {
 	//final static Logger logger = Logger.getLogger(EHSBA.class);
+	
+	static Logger logger = Logger.getLogger(EHSBA.class);
 	
 	public Instance problem;
 	public Population input, output;
@@ -47,11 +49,46 @@ public class EHSBA
 		
 		logMatrix(matrix, "matrix.csv");
 			
-        return createNewGeneration(matrix);
+        Population t =  createNewGeneration(matrix);
+        
+        t = mutuation(t);
+        
+        return t;
 		
 	}
 	
-	
+	Population mutuation(Population in)
+	{
+		for(int i = 1; i < in.members.length; i++)
+		{
+			for(int j = 0; j < mutuationRate; j++)
+			{
+				double prefit = in.members[i].fitness;
+				int a = random.nextInt(in.members[0].chromosome.length);
+				int b = random.nextInt(in.members[0].chromosome.length);
+				
+				int t = in.members[i].chromosome[a];
+				in.members[i].chromosome[a] = in.members[i].chromosome[b];
+				in.members[i].chromosome[b] = t;
+				
+				double postfit = in.members[i].evaluate();
+				
+				if(prefit < postfit)
+				{
+					//revert changes
+					t = in.members[i].chromosome[a];
+					in.members[i].chromosome[a] = in.members[i].chromosome[b];
+					in.members[i].chromosome[b] = t;
+				}
+				//else
+					//System.out.printf("mutuation: %f replaced by %f \n", prefit, postfit);
+			}
+		}
+		
+		in.evaluate();
+		
+		return in;
+	}
 	 /*------------------------- New Genereation -------------------------*/
     Population createNewGeneration(int[][] HM)
     {
@@ -63,8 +100,14 @@ public class EHSBA
         
         //elitism ********
         int i;
+        //System.out.println("### ");
         for(i = 0; i < elitismSize; i++)
+        {
         	newPop.members[i] = input.members[input.bestMemberIndex];
+        	for(int j = 0; j < newPop.members[i].chromosome.length; j++)
+        		logger.debug(String.format("%d ", newPop.members[i].chromosome[j]));
+        }
+        logger.debug(String.format("\n%f\n\n", input.bestMemberFitness));
         //create each individual in the population 
         for(; i < input.members.length; i++)
         {

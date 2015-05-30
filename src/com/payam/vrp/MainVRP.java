@@ -38,7 +38,7 @@ public class MainVRP
 		//solver = new ClarkeWrightGreedySolver(problem);
 		Solver solver1 = new EHSBASolver(problem);
 		solver1.solve();
-		solver1.printResult();
+		//solver1.printResult();
 		
 		System.out.println("finished.");
 		

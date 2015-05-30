@@ -31,7 +31,7 @@ public class Util
 	
 	public static double mutuationRate = 1;
 	
-	public static int changeFrequency = 10;
+	public static int changeFrequency = 50;
 	
 	
 	public static Random random = new Random(System.currentTimeMillis());
