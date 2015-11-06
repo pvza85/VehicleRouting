@@ -60,7 +60,8 @@ public class Population
 		}
 		
 		bestMemberIndex = bestIndex;
-		bestMemberFitness = bestFitness;
+		//if()
+		bestMemberFitness = problem.optimal + (bestFitness - problem.optimal) * 0.4;//bestFitness;
 		
 		return bestFitness;
 	}
@@ -72,14 +73,14 @@ public class Population
 	public void initialize()
 	{
 		LinkedList<int[]> solutionPool = new LinkedList<int[]>();
-		//solutionPool.add( (new NearestNeighborGreedySolver(problem)).solve());
-		//solutionPool.add( (new SimpleGreedySolver(problem)).solve());
+		solutionPool.add( (new NearestNeighborGreedySolver(problem)).solve());
+		solutionPool.add( (new SimpleGreedySolver(problem)).solve());
 		solutionPool.add((new ClarkeWrightGreedySolver(problem)).solve());
 		
 		for(int i = 0; i < populationSize; i++)
 		{
 			
-			members[i] = new Individual(solutionPool.get(random.nextInt(solutionPool.size())), problem);
+			members[i] = new Individual(solutionPool.get(2/*random.nextInt(solutionPool.size())*/), problem);
 		}
 	}
 	

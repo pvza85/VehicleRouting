@@ -37,7 +37,7 @@ public class EHSBASolver extends PopulationBasedSolver
 		bestSolution = population.getBestChromosome();
 		bestFitness = population.bestMemberFitness;
 		print("At initialization the best solution's fitness is: " + population.getBestValue());
-		print("At initialization the average solution's fitness is: " + population.getAverage());
+		//print("At initialization the average solution's fitness is: " + population.getAverage());
 	}
 	
 	@Override
@@ -54,20 +54,20 @@ public class EHSBASolver extends PopulationBasedSolver
 		{
 			if(!flag && (i+1) % changeFrequency == 0)
 			{
-				//population.problem.change();
+				population.problem.change();
 				//System.out.println("c");
 				flag = !flag;
 			}
 			else if(flag && (i+1) % changeFrequency == 0)
 			{
-				//population.problem.revertChange();
+				population.problem.revertChange();
 				//System.out.println("r");
 				flag = !flag;
 			}
 			population = ehsba.iterate(population);
 			results[i] = population.getBestValue();
 			
-			System.out.println(results[i]);
+			//System.out.println(results[i]);
 			
 			sum += (results[i] - population.problem.optimal) / maxGeneration;
 		}

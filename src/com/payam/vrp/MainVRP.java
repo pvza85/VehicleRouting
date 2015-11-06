@@ -28,16 +28,16 @@ public class MainVRP
 		System.out.println(problem.comment);
 		//solve problem
 
-		//Solver solver = new SimpleGreedySolver(problem);
-		//Solver solver = new NearestNeighborGreedySolver(problem);
+		//Solver solver2 = new SimpleGreedySolver(problem);
+		//Solver solver1 = new NearestNeighborGreedySolver(problem);
 		Solver solver = new ClarkeWrightGreedySolver(problem);
 		//Solver solver = new EHSBASolver(problem);
 		solver.solve();
 		//solver.printResult();
 		
 		//solver = new ClarkeWrightGreedySolver(problem);
-		Solver solver1 = new EHSBASolver(problem);
-		solver1.solve();
+		Solver solver3 = new EHSBASolver(problem);
+		solver3.solve();
 		//solver1.printResult();
 		
 		System.out.println("finished.");
