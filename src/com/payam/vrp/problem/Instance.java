@@ -7,6 +7,9 @@ import com.payam.vrp.reader.Reader;
 
 import static com.payam.vrp.Util.*;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 /**
  * An instance of VRP problem
  * @author payam.azad
@@ -25,7 +28,7 @@ public abstract class Instance
 	public int[] depots;   //list of indices of depots
 	public int vehicleCount; //number of vehicles for solving problem
 	public int a, b;
-	public double optimal = 784;
+	public double optimal = 0; //784;
 	
 	//state of problem
 	public int state;   //0: not solved  1: solved
@@ -59,6 +62,19 @@ public abstract class Instance
 		this.vehicleCount = reader.vehicleCount;
 		
 		this.evaluator = new CVRPEvaluator(capacity, vehicleCount, nodes, demands);
+		
+		Pattern pattern = Pattern.compile("Optimal value: [0-9]+");
+		Pattern innerPattern = Pattern.compile("[0-9]+");
+		Matcher matcher = pattern.matcher(comment);
+
+		if(matcher.find())
+		{
+			String inner = matcher.group();
+			Matcher innerMatcher = innerPattern.matcher(inner);
+			if(innerMatcher.find())
+				optimal = Double.parseDouble(innerMatcher.group());
+		}
+		System.out.println("Optimal Value yet is: " + optimal);
 	}
 	
 	/**

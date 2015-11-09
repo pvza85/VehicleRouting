@@ -61,7 +61,7 @@ public class Population
 		
 		bestMemberIndex = bestIndex;
 		//if()
-		bestMemberFitness = problem.optimal + (bestFitness - problem.optimal) * 0.4;//bestFitness;
+		bestMemberFitness = bestFitness;
 		
 		return bestFitness;
 	}

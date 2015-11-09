@@ -23,6 +23,8 @@ public class EHSBA
 	//final static Logger logger = Logger.getLogger(EHSBA.class);
 	static int counter = 1;
 	static Logger logger = Logger.getLogger(EHSBA.class);
+	static Logger reportLogger = Logger.getLogger("reportsLog");
+	static Logger routeLogger = Logger.getLogger("routesLog");
 	
 	public Instance problem;
 	public Population input, output;
@@ -104,10 +106,11 @@ public class EHSBA
         for(i = 0; i < elitismSize; i++)
         {
         	newPop.members[i] = input.members[input.bestMemberIndex];
-        	for(int j = 0; j < newPop.members[i].chromosome.length; j++);
-        		//logger.debug(String.format("%d ", newPop.members[i].chromosome[j]));
+        	for(int j = 0; j < newPop.members[i].chromosome.length; j++)
+        		routeLogger.trace(String.format("%d ", newPop.members[i].chromosome[j]));
         }
-        logger.debug(String.format("%d;%f\n", counter++, input.bestMemberFitness));
+        routeLogger.trace("\n");
+        reportLogger.debug(String.format("1; %d; %f; %f; %f", counter++, input.bestMemberFitness, input.bestMemberFitness, input.bestMemberFitness));
         //create each individual in the population 
         for(; i < input.members.length; i++)
         {
@@ -250,12 +253,11 @@ public class EHSBA
             	int a, b;
             	try
             	{
-            		double weight = 1;
+            		double weight = 1.0;
             		//double weight = 1 / (input.members[selected[i]].fitness - problem.optimal);
             		a = input.members[selected[i]].chromosome[j];
             		if(j+1 >= input.members[0].chromosome.length)
             			b = input.members[selected[i]].chromosome[1];
-            		weight = 1.0;
             		b = input.members[selected[i]].chromosome[j+1];
             		HM[a][b] += weight;
             	}

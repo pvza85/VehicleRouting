@@ -6,6 +6,8 @@ import com.payam.vrp.problem.Instance;
 import com.payam.vrp.problem.VRPInstance;
 import com.payam.vrp.solver.Solver;
 import com.payam.vrp.solver.individualsolver.greedysolver.ClarkeWrightGreedySolver;
+import com.payam.vrp.solver.individualsolver.greedysolver.NearestNeighborGreedySolver;
+import com.payam.vrp.solver.individualsolver.greedysolver.SimpleGreedySolver;
 import com.payam.vrp.solver.populationbased.EHSBASolver;
 
 public class MainVRP 
@@ -29,16 +31,16 @@ public class MainVRP
 		//solve problem
 
 		//Solver solver2 = new SimpleGreedySolver(problem);
-		//Solver solver1 = new NearestNeighborGreedySolver(problem);
-		Solver solver = new ClarkeWrightGreedySolver(problem);
+		//Solver solver2 = new NearestNeighborGreedySolver(problem);
+		//Solver solver = new ClarkeWrightGreedySolver(problem);
 		//Solver solver = new EHSBASolver(problem);
-		solver.solve();
-		//solver.printResult();
+		//solver2.solve();
+		//solver2.printResult();
 		
 		//solver = new ClarkeWrightGreedySolver(problem);
 		Solver solver3 = new EHSBASolver(problem);
 		solver3.solve();
-		//solver1.printResult();
+		solver3.printResult();
 		
 		System.out.println("finished.");
 		
