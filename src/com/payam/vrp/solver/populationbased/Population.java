@@ -26,6 +26,7 @@ public class Population
 	public double averageFitness;    
 	public Instance problem; 
 	public int a,b;
+	public double errorSum = 0;
 	
 	public Population(Instance problem, int populationSize) 
 	{

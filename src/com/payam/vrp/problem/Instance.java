@@ -63,6 +63,7 @@ public abstract class Instance
 		
 		this.evaluator = new CVRPEvaluator(capacity, vehicleCount, nodes, demands);
 		
+		//find optimal value out of comment in Augret Reader (it differ for other formats)
 		Pattern pattern = Pattern.compile("Optimal value: [0-9]+");
 		Pattern innerPattern = Pattern.compile("[0-9]+");
 		Matcher matcher = pattern.matcher(comment);
@@ -74,7 +75,7 @@ public abstract class Instance
 			if(innerMatcher.find())
 				optimal = Double.parseDouble(innerMatcher.group());
 		}
-		System.out.println("Optimal Value yet is: " + optimal);
+		//System.out.println("Optimal Value yet is: " + optimal);
 	}
 	
 	/**

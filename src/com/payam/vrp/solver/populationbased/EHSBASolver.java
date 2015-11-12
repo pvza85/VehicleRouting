@@ -2,6 +2,8 @@ package com.payam.vrp.solver.populationbased;
 
 import java.util.LinkedList;
 
+import org.apache.log4j.Logger;
+
 import com.payam.vrp.problem.Instance;
 import com.payam.vrp.solver.individualsolver.greedysolver.ClarkeWrightGreedySolver;
 import com.payam.vrp.solver.individualsolver.greedysolver.NearestNeighborGreedySolver;
@@ -17,6 +19,8 @@ import static com.payam.vrp.Util.*;
  */
 public class EHSBASolver extends PopulationBasedSolver 
 {
+	
+	static Logger logger = Logger.getLogger(EHSBASolver.class);
 	
 	public EHSBASolver(Instance problem) 
 	{
@@ -69,7 +73,8 @@ public class EHSBASolver extends PopulationBasedSolver
 			
 			//System.out.println(results[i]);
 			
-			sum += (results[i] - population.problem.optimal) / maxGeneration;
+			sum += (results[i] - population.problem.optimal);
+			logger.debug(String.format("1; %d; %f; %f; %f", i, sum / i, population.bestMemberFitness, population.bestMemberFitness));
 		}
 		
 		this.bestFitness = population.bestMemberFitness;
