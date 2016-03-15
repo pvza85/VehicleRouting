@@ -13,11 +13,12 @@ public class CVRPEvaluator extends Evaluator
 	public double evaluate(int[] input)
 	{
 		int i = 0;
+		int[] visits = new int[nodes.length];  //array to check if all customers visited just once
 		double res = distance(0, input[i]);
 		int load = demands[i];
+		int next = 0, current = 0;
 		for(; i < input.length-1; i++)
 		{
-			int next, current;
 			if(input[i] >= nodes.length)
 				current = 0;
 			else
@@ -34,16 +35,41 @@ public class CVRPEvaluator extends Evaluator
 			{
 				res += distance(current, next);
 				if(load > capacity)
+				{
 					res += 1000;
+					//System.out.println("capacity exceeded!");
+				}
 			}
 			else
 			{
 				res += 1000;
 				System.out.print(".");
 			}
+			if(next == 0 && current == 0)
+			{
+				res += 1000;
+				//System.out.println("two depot repeated.");
+			}
+			visits[current]++;
 		}
-		res += distance(input[i], 0);
+		res += distance(input[next], 0);
+		visits[next]++;
 		
+		
+		//check if all customers visited just once
+		for(int j = 1; j < nodes.length; j++)
+		{
+			if(visits[j] > 1)
+			{
+				res += 1000;
+				//System.out.println("more than one visit to: " + j);
+			}
+			else if(visits[j] == 0)
+			{
+				res += 1000;
+				//System.out.println("no visit to: " + j);
+			}
+		}
 		return res;
 	}
 	

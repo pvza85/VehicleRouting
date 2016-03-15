@@ -36,22 +36,23 @@ public class NearestNeighborGreedySolver extends GreedySolver
 		int customerCounter = 1;   //the first customer is depot itself XXX it will not work on multi-depot problems
 		int itemCounter = 0;
 		int assignedWeight = 0;
-		candidSolution.add(0); //set start point to be depot
+		int depotVisits = 0;
+		//candidSolution.add(0); //set start point to be depot
 		
 		while(vehicleCounter < vehicleCount && customerCounter < dimension - 1)
 		{
 			int itr = findNearestNeighbor(candidSolution.get(candidSolution.size()-1));
 			if(assignedWeight > capacity - demands[itr])
 			{
-				candidSolution.add(0);  //set start point to be depot for new vehicle and end point depot for previous vehicle
-				candidSolution.add(0);
+				//candidSolution.add(0);  //set start point to be depot for new vehicle and end point depot for previous vehicle
+				candidSolution.add(nodes.length + depotVisits++);
 				vehicleCounter++;
 				assignedWeight = 0;
-				if(vehicleCounter == vehicleCount)
+				/*if(vehicleCounter == vehicleCount)
 				{
 					print("Problem can't be solved");
 					break;
-				}
+				}*/
 			}
 			
 			itr = findNearestNeighbor(candidSolution.get(candidSolution.size()-1));
@@ -59,7 +60,7 @@ public class NearestNeighborGreedySolver extends GreedySolver
 			customerCounter++;
 			candidSolution.add(itr);
 		}
-		candidSolution.add(0);  
+		//candidSolution.add(0);  
 		
 		bestSolution = new int[candidSolution.size()];
 		for(int i = 0; i < bestSolution.length; i++)

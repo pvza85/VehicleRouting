@@ -31,20 +31,22 @@ public class SimpleGreedySolver extends GreedySolver {
 		int customerCounter = 1;   //the first customer is depot itself XXX it will not work on multi-depot problems
 		int itemCounter = 0;
 		int assignedWeight = 0;
-		candidSolution.add(0); //set start point to be depot
+		int depotVisits = 0;
+		//candidSolution.add(0); //set start point to be depot
 		while(vehicleCounter < vehicleCount && customerCounter < dimension - 1)
 		{
 			if(assignedWeight > capacity - demands[customerCounter])
 			{
-				candidSolution.add(0);  //set start point to be depot for new vehicle and end point depot for previous vehicle
-				candidSolution.add(0);
+				//candidSolution.add(0);  //set start point to be depot for new vehicle and end point depot for previous vehicle
+				//candidSolution.add(0);
+				candidSolution.add(nodes.length + depotVisits++);
 				vehicleCounter++;
 				assignedWeight = 0;
-				if(vehicleCounter == vehicleCount)
+				/*if(vehicleCounter == vehicleCount)
 				{
 					print("Problem can't be solved");
 					break;
-				}
+				}*/
 			}
 			
 			assignedWeight += demands[customerCounter];
@@ -52,7 +54,7 @@ public class SimpleGreedySolver extends GreedySolver {
 			customerCounter++;
 		}
 		
-		candidSolution.add(0); //set end point to be depot
+		//candidSolution.add(0); //set end point to be depot
 		
 		bestSolution = new int[candidSolution.size()];
 		for(int i = 0; i < bestSolution.length; i++)
